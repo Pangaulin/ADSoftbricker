@@ -17,10 +17,10 @@ process_list = process.stdout.split('\n')
 
 package_remover(process_list)
 
-#for i in range(len(process_list)):
-#    deleteProcess(process_list[i])
+for i in range(len(process_list)):
+    deleteProcess(process_list[i])
 
-#subprocess.run(["adb", "reboot"])
+subprocess.run(["adb", "reboot"])
 
 print("Thank you for using this service")
 input("Press a key to continue...")
