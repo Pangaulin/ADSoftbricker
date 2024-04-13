@@ -11,23 +11,46 @@ ASCII_ART = '''
         \\/        \\/        \\/                       \\/              \\/     \\/    \\/ By Pangaulin
 '''
 
-def login():
-    print(ASCII_ART)
-    time.sleep(2)
+class loginProcess():
+    def login(self):
+        print(ASCII_ART)
+        time.sleep(2)
 
-    regex_ip = r'\b(?:\d{1,3}\.){3}\d{1,3}\b'
-    regex_port = r'^([0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$'
+        while True:
+            print("What method are you using to connect to the device ?")
+            print("USB Debugging (1)")
+            print("Wireless Debugging (2)")
+            loginMethod = input("Your choice : ")
+            loginMethod = int(loginMethod)
+            if loginMethod == 1 or loginMethod == 2:
+                break
+            else:
+                print("Incorrect input !")
+                print('\n')
+        if loginMethod == 1:
+            print()
+        if loginMethod == 2:
+            self.wirelessLogin()
 
-    device_ip = input('Device IP (Generally as XXX.XXX.X.XX): ')
-    if not re.match(regex_ip, device_ip):
-        print("The IP adress isn't valid")
-        input("Press a key to continue...")
-        exit(1)
+    def usbLogin(self):
+        print("Unsupported for the moment")
 
-    device_port = input('Device port (Generally as XXXXX) : ')
-    if not re.match(regex_port, device_port):
-        print("The port isn't a valid port")
-        input("Press a key to continue...")
-        exit(1)
+    def wirelessLogin(self):
+        regex_ip = r'\b(?:\d{1,3}\.){3}\d{1,3}\b'
+        regex_port = r'^([0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$'
 
-    subprocess.run(["adb", 'connect', f'{device_ip}:{device_port}'], shell=True, check=False)
+        while True:
+            device_ip = input('Device IP (Generally as XXX.XXX.X.XX): ')
+            if not re.match(regex_ip, device_ip):
+                print("The IP adress isn't valid")
+            else:
+                break
+
+        while True:
+            device_port = input('Device port (Generally as XXXXX) : ')
+            if not re.match(regex_port, device_port):
+                print("The port isn't a valid port")
+            else:
+                break
+
+        subprocess.run(["adb", 'connect', f'{device_ip}:{device_port}'], shell=True, check=False)
