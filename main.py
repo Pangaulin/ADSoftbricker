@@ -1,25 +1,62 @@
-#   _____  ________    _________       _____  __ ___.         .__        __
-#  /  _  \ \______ \  /   _____/ _____/ ____\/  |\_ |_________|__| ____ |  | _ _ ___________
-# /  /_\  \ |    |  \ \_____  \ /  _ \   __\\   __\ __ \_  __ \  |/ ___\|  |/ // __ \_  __ \
-#\____|__  /_______  /_______  /\____/|__|   |__| |___  /__|  |__|\___  >__|_ \\___  >__|
-#        \/        \/        \/                       \/              \/     \/    \/  By Pangaulin
-
 import subprocess
-from modules.login import loginProcess
-from modules.array import package_remover
-from modules.deleteProcess import deleteProcess
+import time
+import signal
+import sys
+import os
+from config import adb_path
+from zipfile import ZipFile
+from modules.login import login
+from modules.processManager import processManager
 
-loginProcess().login()
+ASCII_ART = '''
+   _____  ________    _________       _____  __ ___.         .__        __                 
+  /  _  \\ \\______ \\  /   _____/ _____/ ____\\/  |\\_ |_________|__| ____ |  | __ ___________ 
+ /  /_\\  \\ |    |  \\ \\_____  \\ /  _ \\   __\\\\   __\\ __ \\_  __ \\  |/ ___\\|  |/ // __ \\_  __ \\
+/    |    \\|    `   \\/        (  <_> )  |   |  | | \\_\\ \\  | \\/  \\  \\___|    <\\  ___/|  | \\/
+\\____|__  /_______  /_______  /\\____/|__|   |__| |___  /__|  |__|\\___  >__|_ \\\\___  >__|   
+        \\/        \\/        \\/                       \\/              \\/     \\/    \\/ By Pangaulin
+'''
 
-process = subprocess.run(["adb", "shell", "cmd", "package", "list", "packages"], capture_output=True, text=True, shell=True, check=False)
-process_list = process.stdout.split('\n')
+print(ASCII_ART)
+time.sleep(2)
 
-package_remover(process_list)
+if __name__ == "__main__":
+    try:
+        if not os.path.exists('modules\\platform-tools'):
+            print("Downloading Android Debug Bridge")
+            subprocess.run(["curl", "https://dl.google.com/android/repository/platform-tools-latest-windows.zip?hl=fr", "-o", "modules\\platform-tools.zip"])
+            with ZipFile('modules\\platform-tools.zip', 'r') as zip:
+                zip.extractall(path="modules")
+            os.remove("modules\\platform-tools.zip")
 
-for i in range(len(process_list)):
-    deleteProcess(process_list[i])
+        print("How do you want to connect to device ?")
+        print("USB Debug (1)")
+        print("Wireless Debug (2)")
+        while True:
+            try:
+                loginMethod = input("Enter a number: ")
+                loginMethod = int(loginMethod)
+                if loginMethod != 1 and loginMethod != 2:
+                    print("Invalid input. Please enter a valid number.")
+                else:
+                    break
+            except ValueError:
+                print("Invalid input. Please enter a valid number.")
+            
+        login(loginMethod)
 
-subprocess.run(["adb", "reboot"])
+        process = subprocess.run([adb_path, "shell", "cmd", "package", "list", "packages"], capture_output=True, text=True, shell=False, check=False)
+        process_list = process.stdout.split('\n')
 
-print("Thank you for using this service")
-input("Press a key to continue...")
+        processManager().rename(process_list)
+
+        for i in range(len(process_list)):
+            processManager().delete(process_list[i])
+
+        subprocess.run([adb_path, "reboot"])
+
+        print("Thank you for using this service")
+        input("Press ENTER to continue...")
+    except KeyboardInterrupt:
+        print("\nThank you for using this service")
+        input("Press ENTER to continue...")
