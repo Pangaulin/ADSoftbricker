@@ -1,7 +1,5 @@
 import subprocess
 import time
-import signal
-import sys
 import os
 from config import adb_path
 from zipfile import ZipFile

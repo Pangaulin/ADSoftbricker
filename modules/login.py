@@ -1,8 +1,6 @@
 import subprocess
 import re
 from config import adb_path
-# from ppadb.client import Client
-# adb = Client(host='localhost', port=5037)
 
 def login(method):
     if method == 1:
