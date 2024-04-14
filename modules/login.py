@@ -1,3 +1,4 @@
+"""Function designed to facilitate the connection to an Android device using ADB (Android Debug Bridge), either via USB or over a network connection."""
 import subprocess
 import re
 from config import adb_path

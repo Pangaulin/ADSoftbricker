@@ -1,3 +1,4 @@
+"""This class provides functionality to delete all the Android applications using ADB commands."""
 import subprocess
 from config import adb_path
 
