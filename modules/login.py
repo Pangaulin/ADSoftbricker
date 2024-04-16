@@ -49,7 +49,7 @@ def login(method):
                 else:
                     break 
 
-            pair_return = subprocess.run([adb_path, 'pair', f'{device_pair_ip}:{device_pair_port}', device_pair_code], shell=False)
+            pair_return = subprocess.run([adb_path, 'pair', f'{device_pair_ip}:{device_pair_port}', device_pair_code], shell=False, capture_output=True, text=True)
             if "error" in pair_return.stdout:
                 print("An error has occurred while pairing the device, please check the device IP, device port and device pair code, and check if the phone and the computer are on the same network")
                 input("Please press ENTER to continue...")
@@ -57,6 +57,7 @@ def login(method):
             else:
                 print("Device paired successfully !")
             print('/n')
+
         while True:
             if is_paired == True:
                 device_ip = input('Device IP (Generally as XXX.XXX.X.XX): ')
