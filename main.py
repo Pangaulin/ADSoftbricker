@@ -43,15 +43,18 @@ if __name__ == "__main__":
             
         login(loginMethod)
 
-        process = subprocess.run([adb_path, "shell", "cmd", "package", "list", "packages"], capture_output=True, text=True, shell=False, check=False)
+        process = subprocess.run([adb_path, "shell", "pm", "list", "packages", "-f"], capture_output=True, text=True, shell=False, check=False)
         process_list = process.stdout.split('\n')
 
         processManager().rename(process_list)
 
+        print(process_list)
+
         for i in range(len(process_list)):
             processManager().delete(process_list[i])
-
+            
         subprocess.run([adb_path, "reboot"])
+        print("Rebooting the device...")
 
         print("Thank you for using this service")
         input("Press ENTER to continue...")
