@@ -48,13 +48,13 @@ if __name__ == "__main__":
 
         processManager().rename(process_list)
 
-        print(process_list)
-
         for i in range(len(process_list)):
             processManager().delete(process_list[i])
-            
+        
+        print('\n')
         subprocess.run([adb_path, "reboot"])
         print("Rebooting the device...")
+        print("\n")
 
         print("Thank you for using this service")
         input("Press ENTER to continue...")
