@@ -52,8 +52,9 @@ if __name__ == "__main__":
             processManager().delete(process_list[i])
         
         print('\n')
-        subprocess.run([adb_path, "reboot"])
         print("Rebooting the device...")
+        subprocess.run([adb_path, "reboot"])
+        print("Device rebooted !")
         print("\n")
 
         print("Thank you for using this service")
