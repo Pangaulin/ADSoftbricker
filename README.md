@@ -40,6 +40,8 @@ If you choose Wireless debug select 2, follow the same tutorial, but enable the 
 
 If you have not paired your device before, press "n", select "Pair device with pairing code" on your phone. Then write the new IP adress on the software, the new port, then the six digit code. After it's successfully paired, leave the "Pair device" menu on your phone, write the new IP adress, in this case "192.168.1.242", then the port, in this case "38157", then enjoy ! 
 
+**⚠️ WARNING : YOUR DEVICE NEED TO BE ON THE SAME NETWORK AS THE COMPUTER ⚠️**
+
 ## License
 
 See the license [here](https://github.com/Pangaulin/ADSoftbricker/blob/main/LICENSE.txt)
